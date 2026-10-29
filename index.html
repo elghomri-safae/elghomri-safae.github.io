@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Portfolio de Safae El Ghomri, élève-ingénieure en IA et data à l'ENSA d'El Jadida : projets RAG, data et web, parcours et contact.">
+<meta property="og:title" content="Safae El Ghomri">
+<meta property="og:description" content="Portfolio de Safae El Ghomri, élève-ingénieure en IA et data à l'ENSA d'El Jadida : projets RAG, data et web, parcours et contact.">
+<title>Safae El Ghomri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&display=swap">
+<style>
+  /* Concept : page éditoriale sobre, colonne de libellés à gauche, contenu à droite.
+     Le schéma du pipeline RAG de Juris-IA est l'élément visuel principal. */
+  :root {
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --ink: #111c33;
+    --muted: #566178;
+    --line: #dde3ec;
+    --accent: #0b7a75;
+    --accent-ink: #ffffff;
+    --accent-soft: #e0f3f1;
+    --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --font-arabic: "Noto Naskh Arabic", "Segoe UI", "Geeza Pro", serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1220; --surface: #131b2e; --ink: #e8edf6; --muted: #9aa6bd; --line: #26314a;
+      --accent: #4cc9c0; --accent-ink: #06201e; --accent-soft: #12302f; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1220; --surface: #131b2e; --ink: #e8edf6; --muted: #9aa6bd; --line: #26314a;
+    --accent: #4cc9c0; --accent-ink: #06201e; --accent-soft: #12302f; color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  /* En-tête */
+  header.top {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30;
+    background: var(--bg);
+  }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
+  .logo { font-family: var(--font-display); font-weight: 800; text-decoration: none; letter-spacing: -0.01em; }
+  nav { display: flex; gap: 20px; font-size: 14px; flex-wrap: wrap; }
+  nav a { text-decoration: none; color: var(--muted); }
+  nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero { padding-block: 72px 56px; }
+  .status {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 13px; color: var(--accent);
+    background: var(--accent-soft); padding: 6px 12px; border-radius: 999px;
+  }
+  .status i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  h1 {
+    font-family: var(--font-display); font-weight: 800; letter-spacing: -0.03em; line-height: 1.02;
+    font-size: clamp(2.6rem, 8vw, 5.4rem); margin: 22px 0 18px; text-wrap: balance;
+  }
+  .lede { font-size: clamp(1.1rem, 2.4vw, 1.4rem); max-width: 40ch; margin: 0 0 14px; color: var(--ink); text-wrap: pretty; }
+  .sub { color: var(--muted); max-width: 58ch; margin: 0 0 28px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: 15px;
+    padding: 11px 18px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer;
+    font-family: inherit;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { color: var(--accent-ink); filter: brightness(1.08); }
+
+  /* Sections */
+  section.block { padding-block: 56px; border-top: 1px solid var(--line); }
+  .grid { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 32px 48px; }
+  .label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding-top: 6px; }
+  h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.4vw, 2.2rem); letter-spacing: -0.02em; margin: 0 0 8px; line-height: 1.15; text-wrap: balance; }
+  h3 { font-family: var(--font-display); font-size: 1.25rem; margin: 0; letter-spacing: -0.01em; line-height: 1.25; }
+  .meta { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+  p { margin: 0 0 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+  .chips li { font-family: var(--font-mono); font-size: 12px; padding: 3px 9px; border-radius: 5px; background: var(--accent-soft); color: var(--accent); }
+
+  /* Projet principal */
+  .featured { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 28px; margin-bottom: 8px; }
+  .featured .head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; margin-bottom: 10px; }
+  .featured p.desc { max-width: 62ch; color: var(--muted); }
+
+  /* Pipeline RAG */
+  .pipeline { margin-top: 22px; display: grid; grid-template-columns: 1fr auto 1.15fr auto 1fr auto 1fr; gap: 10px; align-items: stretch; }
+  .step { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--bg); min-width: 0; }
+  .step b { display: block; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--accent); margin-bottom: 4px; }
+  .step span { font-size: 13.5px; color: var(--muted); line-height: 1.4; display: block; }
+  .step.q { background: var(--accent-soft); border-color: transparent; }
+  .step.q .ar { font-family: var(--font-arabic); font-size: 17px; color: var(--ink); direction: rtl; line-height: 1.5; margin-bottom: 2px; }
+  .step.q .fr { font-size: 13px; color: var(--ink); }
+  .two { display: grid; gap: 8px; }
+  .two .step { padding: 8px 12px; }
+  .arrow { align-self: center; color: var(--muted); font-family: var(--font-mono); }
+  .note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  /* Liste de projets */
+  .rows { display: grid; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; padding-block: 22px; border-top: 1px solid var(--line); }
+  .row:first-child { border-top: 0; padding-top: 0; }
+  .row .t { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  .row p { color: var(--muted); max-width: 64ch; margin: 4px 0 0; }
+
+  /* Parcours */
+  .tl { display: grid; }
+  .tl .item { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 24px; padding-block: 18px; border-top: 1px solid var(--line); }
+  .tl .item:first-child { border-top: 0; padding-top: 0; }
+  .tl .when { font-family: var(--font-mono); font-size: 13px; color: var(--muted); padding-top: 3px; }
+  .tl h3 { font-size: 1.05rem; }
+  .tl p { color: var(--muted); margin: 4px 0 0; max-width: 64ch; }
+
+  /* Compétences */
+  .skills { display: grid; gap: 18px; }
+  .skills dt { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .skills dd { margin: 0; }
+  .certs { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; color: var(--muted); font-size: 15px; }
+  .certs li::before { content: "— "; color: var(--accent); }
+
+  /* Contact */
+  .mail { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0 20px; }
+  .mail code { font-family: var(--font-mono); font-size: 15px; background: var(--surface); border: 1px solid var(--line); padding: 9px 12px; border-radius: 8px; user-select: all; overflow-wrap: anywhere; }
+  footer { padding-block: 32px 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+
+  @media (max-width: 780px) {
+    .grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .hero { padding-block: 44px 36px; }
+    .pipeline { grid-template-columns: minmax(0, 1fr); }
+    .arrow { transform: rotate(90deg); justify-self: center; }
+    .tl .item { grid-template-columns: minmax(0, 1fr); }
+    .featured { padding: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#haut">Safae El Ghomri</a>
+    <nav aria-label="Navigation principale">
+      <a href="#projets">Projets</a>
+      <a href="#parcours">Parcours</a>
+      <a href="#competences">Compétences</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="haut">
+  <div class="wrap">
+    <section class="hero" aria-labelledby="titre">
+      <span class="status"><i></i>Recherche un stage PFE de janvier 2027</span>
+      <h1 id="titre">Safae El Ghomri</h1>
+      <p class="lede">Je construis des assistants IA qui répondent en arabe et en français.</p>
+      <p class="sub">Élève-ingénieure en dernière année à l'ENSA d'El Jadida, filière Ingénierie Informatique et Technologies Émergentes. Je travaille sur le RAG, la data et le développement web, avec un stage en IA juridique à mon actif.</p>
+      <div class="cta">
+        <a class="btn primary" href="#projets">Voir mes projets</a>
+        <a class="btn" href="https://github.com/elghomri-safae" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/safaeelghomri" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </section>
+  </div>
+
+  <section class="block" id="projets" aria-labelledby="h-projets">
+    <div class="wrap grid">
+      <div class="label">Projets</div>
+      <div>
+        <h2 id="h-projets">Ce que j'ai construit</h2>
+        <p class="sub" style="margin-bottom:24px">Le projet qui m'a le plus appris est un assistant juridique bilingue. Les autres touchent à la data, au scraping et au web.</p>
+
+        <article class="featured">
+          <div class="head">
+            <h3>Juris-IA Maroc</h3>
+            <span class="meta">PFA · 2026</span>
+          </div>
+          <p class="desc">Assistant qui répond à des questions sur le Code Pénal marocain, en arabe et en français, dans une interface de chat. Pour chaque question, la recherche combine deux méthodes : l'une trouve les mots exacts (un numéro d'article, par exemple), l'autre trouve le sens. Un reranker remet les passages dans le bon ordre avant que le modèle rédige sa réponse.</p>
+
+          <div class="pipeline" role="img" aria-label="Schéma du pipeline RAG : la question passe par BM25 et E5 en parallèle, puis par le reranker BGE, puis par le LLM Groq qui rédige la réponse.">
+            <div class="step q">
+              <b>QUESTION</b>
+              <div class="ar" lang="ar">ما هي عقوبة السرقة؟</div>
+              <div class="fr">Exemple de question</div>
+            </div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="two">
+              <div class="step"><b>BM25</b><span>mots exacts</span></div>
+              <div class="step"><b>E5 embeddings</b><span>sens de la question</span></div>
+            </div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="step"><b>RERANKER BGE</b><span>remet les passages dans l'ordre</span></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="step"><b>LLM GROQ</b><span>rédige la réponse à partir des passages</span></div>
+          </div>
+          <p class="note">La question en arabe est un exemple pour illustrer le schéma.</p>
+
+          <ul class="chips" aria-label="Technologies">
+            <li>Python</li><li>LangChain</li><li>Groq LLM</li><li>Streamlit</li><li>E5</li><li>BM25</li><li>BGE reranker</li>
+          </ul>
+        </article>
+
+        <div class="rows" style="margin-top:32px">
+          <div class="row">
+            <div class="t"><h3>Pipeline Business Intelligence : rendez-vous hospitaliers</h3></div>
+            <p>Processus ETL qui réunit des données hospitalières de plusieurs sources, avec des tableaux de bord SSRS pour aider à la décision médicale.</p>
+            <ul class="chips"><li>SSIS</li><li>SSAS</li><li>SSRS</li><li>ETL</li></ul>
+          </div>
+          <div class="row">
+            <div class="t"><h3>Extracteur de données produits Amazon et tableau de bord</h3><span class="meta">PFA · 2025</span></div>
+            <p>Pipeline de scraping avec Scrapy, analyse exploratoire des données avec Pandas et tableau de bord Streamlit interactif.</p>
+            <ul class="chips"><li>Python</li><li>Scrapy</li><li>Pandas</li><li>Streamlit</li></ul>
+          </div>
+          <div class="row">
+            <div class="t"><h3>Hive Dashboard Builder</h3></div>
+            <p>Tableau de bord interactif pour interroger et visualiser des jeux de données distribués sur Apache Hive.</p>
+            <ul class="chips"><li>Apache Hive</li><li>Python</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="parcours" aria-labelledby="h-parcours">
+    <div class="wrap grid">
+      <div class="label">Parcours</div>
+      <div>
+        <h2 id="h-parcours">Formation et expérience</h2>
+        <div class="tl" style="margin-top:20px">
+          <div class="item">
+            <div class="when">Juillet – Août 2026</div>
+            <div>
+              <h3>MyLegal · Stagiaire en développement IA / RAG</h3>
+              <p>Plateforme intelligente d'assistance juridique pour la création de sociétés au Maroc. J'ai structuré et traité les données juridiques pour qu'un moteur RAG puisse les indexer et les exploiter, et conçu un moteur de règles métier qui pré-vérifie automatiquement la conformité des dossiers.</p>
+              <ul class="chips"><li>Python</li><li>LangChain</li><li>Groq LLM</li><li>Streamlit</li></ul>
+            </div>
+          </div>
+          <div class="item">
+            <div class="when">Juillet 2025</div>
+            <div>
+              <h3>ISEEM, El Jadida · Développeuse web fullstack</h3>
+              <p>Application web de gestion scolaire, de l'analyse des besoins à la mise en ligne. Modélisation de la base de données et interfaces d'administration.</p>
+              <ul class="chips"><li>PHP</li><li>MySQL</li></ul>
+            </div>
+          </div>
+          <div class="item">
+            <div class="when">2022 – aujourd'hui</div>
+            <div>
+              <h3>ENSA El Jadida · Ingénierie Informatique et Technologies Émergentes</h3>
+              <p>Machine Learning, Deep Learning et Reinforcement Learning, IA générative (NLP, LLM), Big Data, Business Intelligence, statistique inférentielle.</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="when">2020 – 2022</div>
+            <div>
+              <h3>Baccalauréat Sciences Physiques · Mention Très Bien</h3>
+              <p>Lycée Moulay Bouchaib, Azemmour.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="competences" aria-labelledby="h-comp">
+    <div class="wrap grid">
+      <div class="label">Compétences</div>
+      <div>
+        <h2 id="h-comp">Outils et domaines</h2>
+        <dl class="skills" style="margin-top:20px">
+          <div><dt>Machine Learning et IA</dt><dd>Machine Learning, Deep Learning, NLP et LLM, RAG, LangChain, Scikit-Learn, TensorFlow, PyTorch</dd></div>
+          <div><dt>Data</dt><dd>Python, Pandas, NumPy, analyse exploratoire, statistiques, Big Data, ETL (SSIS, SSAS, SSRS), Apache Hive, Streamlit</dd></div>
+          <div><dt>Bases de données et cloud</dt><dd>SQL, PL/SQL, MySQL, bases relationnelles et NoSQL, AWS</dd></div>
+          <div><dt>Développement</dt><dd>Jakarta EE, API REST, PHP, React Native, Android (Java, Kotlin), JavaScript, POO, UML, design patterns</dd></div>
+          <div><dt>Langues</dt><dd>Arabe (langue maternelle), français (bilingue), anglais (professionnel)</dd></div>
+        </dl>
+        <ul class="certs" aria-label="Certifications">
+          <li>AWS Academy Graduate : Machine Learning Foundations</li>
+          <li>AWS Academy Graduate : Machine Learning for Natural Language Processing</li>
+          <li>AWS Academy Graduate : Data Engineering</li>
+          <li>AWS Academy Graduate : Cloud Foundations</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact" aria-labelledby="h-contact">
+    <div class="wrap grid">
+      <div class="label">Contact</div>
+      <div>
+        <h2 id="h-contact">Parlons de votre stage PFE</h2>
+        <p class="sub" style="margin-bottom:0">Disponible à partir de janvier 2027, pour un stage de fin d'études en IA, data ou développement.</p>
+        <div class="mail">
+          <code id="mail">elghomrisafae34@gmail.com</code>
+          <button class="btn" id="copy" type="button">Copier l'adresse</button>
+          <span class="meta" id="copied" role="status" aria-live="polite"></span>
+        </div>
+        <div class="cta">
+          <a class="btn" href="https://www.linkedin.com/in/safaeelghomri" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn" href="https://github.com/elghomri-safae" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Safae El Ghomri · El Jadida, Maroc</div>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('copy');
+    var out = document.getElementById('copied');
+    var mail = document.getElementById('mail');
+    function selectText() {
+      var r = document.createRange(); r.selectNodeContents(mail);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+    btn.addEventListener('click', function () {
+      var text = mail.textContent.trim();
+      function done(ok) { out.textContent = ok ? 'Adresse copiée' : 'Sélectionnée : copiez avec Ctrl+C'; setTimeout(function () { out.textContent = ''; }, 3000); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { selectText(); done(false); });
+      } else { selectText(); done(false); }
+    });
+  })();
+</script>
+</body>
+</html>
